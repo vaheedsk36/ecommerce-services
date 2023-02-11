@@ -6,10 +6,15 @@ const categorySchema = new Schema({
         type:String,
         required:true
     },
-    image:String,
-    countInStock:{
-        type:Number,
-        required:true
-    }
+    icon:{
+        type:String
+    },
+    color:{
+        type:String
+    },
+    // image:{
+    //     type:String,
+    //     default:''
+    // }
 })
 module.exports = mongoose.model('Category',categorySchema);
