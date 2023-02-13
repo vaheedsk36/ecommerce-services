@@ -4,7 +4,7 @@
 
 ## To run the application
 
-  -Connect with me for the `.env` details
-  -`npm install`
-  -`npm run dev`
-  -Application will be running at port:`35000`
+  - Connect with me for the `.env` details
+  - `npm install`
+  - `npm run dev`
+  - Application will be running at port:`35000`
