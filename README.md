@@ -8,4 +8,3 @@
   - `npm install`
   - `npm run dev` for running the application
   - `npm run lint` for checking linting issues in the application
-  - Application will be running at port:`35000`
