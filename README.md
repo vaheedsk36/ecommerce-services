@@ -1,10 +1,11 @@
 ## ecommerce-web-application-services
 
- This is web service is part of a e-commerce web application
+ This is web service is part of a e-commerce web application made using node-typescript
 
 ## To run the application
 
-  - Connect with me for the `.env` details
+  - Refer `.env.sample` for setting up environment
   - `npm install`
-  - `npm run dev`
+  - `npm run dev` for running the application
+  - `npm run lint` for checking linting issues in the application
   - Application will be running at port:`35000`
