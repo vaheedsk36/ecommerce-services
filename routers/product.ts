@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import Product from '../models/product';
+import mongoose from 'mongoose';
+
 const router = express.Router();
-const Product = require('../models/product');
-const mongoose = require('mongoose');
 
 router.get('/',async (req,res)=>{
     const productsList = await Product.find().populate('category');
@@ -54,10 +55,7 @@ router.post('/',async (req,res)=>{
         });
         product = await product.save();
         if(!product){
-            res.status(400).json({
-                error:err,
-                status:false
-            })
+            res.status(400).json({status:false})
         }
         res.status(201).json(product);
 
@@ -75,7 +73,7 @@ router.put('/:id',async(req,res)=>{
         if(!mongoose.isValidObjectId(req.params.id)){
             return res.status(400).send('Invalid product id');
         }
-        let product = await Product.findByIdAndUpdate(req.params.id,{
+        const product = await Product.findByIdAndUpdate(req.params.id,{
             name:req.body.name,
             image:req.body.image,
             countInStock:req.body.countInStock
@@ -105,7 +103,7 @@ router.delete('/:id',async(req,res)=>{
         if(!mongoose.isValidObjectId(req.params.id)){
             return res.status(400).send('Invalid product id');
         }
-        let product = await Product.findByIdAndRemove(req.params.id);
+        const product = await Product.findByIdAndRemove(req.params.id);
         if(product){
             return res.status(200).json({
                 success:true,
@@ -125,4 +123,4 @@ router.delete('/:id',async(req,res)=>{
     }
 })
 
-module.exports = router;
+export default router;

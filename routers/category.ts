@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const Category = require('../models/category');
+import express from 'express';
+import Category from '../models/category';
 
+const router = express.Router();
 // api for getting all the categories
 router.get('/',async (req,res)=>{
     const categoriesList = await Category.find();
@@ -14,7 +14,7 @@ router.get('/',async (req,res)=>{
 // api for getting category by id
 router.get('/:id',async (req,res)=>{
     try{
-        let category = await Category.findById(req.params.id);
+        const category = await Category.findById(req.params.id);
         if(category){
             return res.status(200).send(category)
         }else{
@@ -38,21 +38,29 @@ router.post('/',async(req,res)=>{
         icon:req.body.icon,
         color:req.body.color
     });
-    category = await category.save();
-    if(!category){
+
+    try{
+        category = await category.save();
+        if(!category){
+            res.status(400).json({
+                status:false,
+                message:'Unable to add new category '
+            })
+        }
+        res.status(201).json(category);
+    }catch(err){
         res.status(500).json({
             error:err,
             status:false
         })
     }
-    res.status(201).json(category);
 })
 
 // api for finding category by id and update
 
 router.put('/:id',async(req,res)=>{
     try{
-        let category = await Category.findByIdAndUpdate(req.params.id,{
+        const category = await Category.findByIdAndUpdate(req.params.id,{
             name:req.body.name,
             icon:req.body.icon,
             color:req.body.color
@@ -81,7 +89,7 @@ router.put('/:id',async(req,res)=>{
 router.delete('/:id',async(req,res)=>{
 
     try{
-        let category = await Category.findByIdAndRemove(req.params.id);
+        const category = await Category.findByIdAndRemove(req.params.id);
         if(category){
             return res.status(200).json({
                 success:true,
@@ -101,4 +109,4 @@ router.delete('/:id',async(req,res)=>{
     }
 })
 
-module.exports = router;
+export default router;

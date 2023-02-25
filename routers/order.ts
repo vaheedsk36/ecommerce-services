@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const Order = require('../models/order');
+import express from 'express';
+import Order from '../models/order';
 
+const router = express.Router();
 router.get('/',async (req,res)=>{
     const ordersList = await Order.find();
     if(!ordersList){
@@ -10,4 +10,4 @@ router.get('/',async (req,res)=>{
     res.send(ordersList)
 })
 
-module.exports = router;
+export default router;

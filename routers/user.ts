@@ -1,6 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/user');
+import express, { Router } from 'express';
+import User from '../models/user';
+
+const router:Router = express.Router();
 
 router.get('/',async (req,res)=>{
     const usersList = await User.find();
@@ -10,4 +11,4 @@ router.get('/',async (req,res)=>{
     res.send(usersList)
 })
 
-module.exports = router;
+export default router;
