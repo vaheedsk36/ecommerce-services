@@ -6,10 +6,10 @@
 
 ## To run the application
 
-  - Refer `.env.sample` for setting up environment
-  - `npm install`
-  - `npm run dev` for running the application
-  - `npm run lint` for checking linting issues in the application
+- Refer `.env.sample` for setting up environment
+- `npm install`
+- `npm run dev` for running the application
+- `npm run lint` for checking linting issues in the application
 
 ## Contributors
 
@@ -21,5 +21,6 @@
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-@all-contributors please add @vaheedsk36 for code
+<a href="https://github.com/OWNER/REPO/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=OWNER/REPO" />
+</a>
