@@ -3,13 +3,7 @@ import Category from '../models/category';
 
 const router = express.Router();
 // api for getting all the categories
-router.get('/',async (req,res)=>{
-    const categoriesList = await Category.find();
-    if(!categoriesList){
-        res.status(500).json({success:false})
-    }
-    res.status(200).send(categoriesList)
-})
+router.get('/',)
 
 // api for getting category by id
 router.get('/:id',async (req,res)=>{

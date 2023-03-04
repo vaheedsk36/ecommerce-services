@@ -16,10 +16,10 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
 // routes
-import productsRoutes from './routers/product'
-import categoriesRoutes from './routers/category'
-import ordersRoutes from './routers/order'
-import usersRoutes from './routers/user'
+import productsRoutes from './routes/product'
+import categoriesRoutes from './routes/category'
+import ordersRoutes from './routes/order'
+import usersRoutes from './routes/user'
 
 // Routers
 app.use(`${api}/products`,productsRoutes)
