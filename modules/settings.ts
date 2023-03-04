@@ -57,10 +57,32 @@ export const updateAccount = async (req: Request, res: Response) => {
     if (!user) {
       res.status(400).json({
         status: false,
-        message: "Unable to update the user ",
+        message: "Unable to update changes",
       });
     }
-    res.send(user);
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      status: false,
+    });
+  }
+};
+
+export const deleteAccount = async (req: Request, res: Response) => {
+  try {
+    const user = await AccountSettings.findOneAndDelete({
+      clientId: req.headers["clientid"],
+    });
+    if (!user) {
+      res.status(400).json({
+        status: false,
+        message: "Unable to delete your account",
+      });
+    }
+    res
+      .status(200)
+      .json({ status: true, message: "Account has been deleted successfully" });
   } catch (err) {
     res.status(500).json({
       error: err,
