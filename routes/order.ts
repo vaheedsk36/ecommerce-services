@@ -1,13 +1,7 @@
 import express from 'express';
-import Order from '../models/order';
+import { getOrdersData } from '../modules/order';
 
 const router = express.Router();
-router.get('/',async (req,res)=>{
-    const ordersList = await Order.find();
-    if(!ordersList){
-        res.status(500).json({success:false})
-    }
-    res.send(ordersList)
-})
+router.get('/',getOrdersData)
 
 export default router;
