@@ -50,6 +50,7 @@ export const addNewProduct = async (req: Request, res: Response) => {
       name: req.body.name,
       image: req.body.image,
       countInStock: req.body.countInStock,
+      description:req.body.description
     });
     product = await product.save();
     if (!product) {

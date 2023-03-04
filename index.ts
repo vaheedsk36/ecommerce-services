@@ -1,17 +1,17 @@
-import express from 'express'
-const app = express()
-import bodyParser from 'body-parser'
+import express, { Application } from 'express'
 import mongoose, { ConnectOptions } from 'mongoose'
 import cors from 'cors'
 require('dotenv/config')
 
+const app:Application = express()
 const PORT = process.env.PORT
 const api = process.env.API_URL
 
 // middleware
+// (express.json())bodyParser is included in the express now (https://stackoverflow.com/a/69620344)
 app.use(cors())
 app.options('*',cors())
-app.use(bodyParser.json())
+app.use(express.json())
 
 // routes
 import productsRoutes from './routes/product'
@@ -40,12 +40,12 @@ mongoose.connect(process.env.DB_CONNECTION_STRING,{
     dbName:'ecommerce-website'
 } as ConnectOptions)
 .then(()=>{
-    console.log('DB is runnning')
+    console.log('DB connection established!')
 })
 .catch((err)=>{
     console.log(err)
 })
 
 app.listen(PORT,()=>{
-    console.log(`App is listening at PORT:${PORT}`)
+    console.log(`App is listening at http://localhost:${PORT}`)
 })
