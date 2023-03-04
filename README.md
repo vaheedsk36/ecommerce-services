@@ -22,6 +22,12 @@
 - `npm run dev` for running the application
 - `npm run lint` for checking linting issues in the application
 
+## Tasks to work on next
+
+- Add authentication middleware
+- Add ajv validation to all the post requests
+- Add more TS definitions
+
 ## Authors
 
 - [Masood Akhtar Vaheed](https://github.com/vaheedsk36)
