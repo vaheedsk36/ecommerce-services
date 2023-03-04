@@ -1,13 +1,21 @@
 import { Request, Response } from "express";
 import Product from "../models/product";
 import mongoose from "mongoose";
+import { logger } from "../middlewares/logger";
 
 export const getProducts = async (req: Request, res: Response) => {
-  const productsList = await Product.find().populate("category");
-  if (!productsList) {
+  try{
+    const productsList = await Product.find().populate("category");
+    if (!productsList) {
+      throw new Error("Failed to get requested data")
+    }
+    res.send(productsList);
+
+  }catch(err){
+    logger.error(err);
     res.status(500).json({ success: false });
   }
-  res.send(productsList);
+
 };
 
 export const getProductsCount = async (req: Request, res: Response) => {
@@ -58,6 +66,7 @@ export const addNewProduct = async (req: Request, res: Response) => {
     }
     res.status(201).json(product);
   } catch (err) {
+    logger.error(err);
     res.status(500).json({
       error: err,
       status: false,

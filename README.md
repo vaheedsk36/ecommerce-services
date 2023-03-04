@@ -22,6 +22,10 @@
 - `npm run dev` for running the application
 - `npm run lint` for checking linting issues in the application
 
+## Task on going
+- Winston error is not stored in services-error.log file
+- Complete the winston setup and add the logger to error prone code
+
 ## Tasks to work on next
 
 - Add authentication middleware
