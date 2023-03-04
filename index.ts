@@ -1,7 +1,6 @@
 import express from 'express'
 const app = express()
 import bodyParser from 'body-parser'
-import morgan from 'morgan'
 import mongoose, { ConnectOptions } from 'mongoose'
 import cors from 'cors'
 require('dotenv/config')
@@ -13,7 +12,6 @@ const api = process.env.API_URL
 app.use(cors())
 app.options('*',cors())
 app.use(bodyParser.json())
-app.use(morgan('tiny'))
 
 // routes
 import productsRoutes from './routes/product'
