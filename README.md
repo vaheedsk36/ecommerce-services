@@ -11,16 +11,7 @@
 - `npm run dev` for running the application
 - `npm run lint` for checking linting issues in the application
 
-## Contributors
+## Authors
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-<a href="https://github.com/OWNER/REPO/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=OWNER/REPO" />
-</a>
+- [Masood Akhtar Vaheed](https://github.com/vaheedsk36)
+- [Nijo Noble](https://github.com/nijo34)
