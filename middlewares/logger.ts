@@ -2,40 +2,33 @@ import {NextFunction, Request,Response} from "express";
 import winston from "winston";
 import { env } from "process";
 import DailyRotateFile = require("winston-daily-rotate-file");
+import { DailyRotateFileTransportOptions } from "winston-daily-rotate-file";
 
-const dailyRotateFileOptions = {
-  filename: `${env.LOG_PATH || ".//logs//"}ecommerce-services-%DATE%.log`,
+const transport = new DailyRotateFile({
+  filename: `${env.LOG_PATH}service-report-%DATE%.log`,
   datePattern: "YYYY-MM-DD-HH",
   zippedArchive: true,
   maxSize: "20m",
   maxFiles: "20d",
   prepend: true,
-};
-
-const transport = new DailyRotateFile(
-  dailyRotateFileOptions
-);
+} as DailyRotateFileTransportOptions);
 
 export const logger = winston.createLogger({
-    level: "debug",
-    format: winston.format.json(),
-    transports: [        //
-    
+  level: "debug",
+  format: winston.format.json(),
+  transports: [
     new winston.transports.File({
-        filename: `${
-            env.LOG_PATH || ".//logs//"
-        }ecommerce-services.error.log`,
-        level: "error",
+      filename: `${env.LOG_PATH}service-report.error.log`,
+      level: "error",
     }),
-    transport],
-  });
+    transport,
+  ],
+});
 
 
   if (env.NODE_ENV !== "production") {
-    logger.add(
-        new winston.transports.Console()
-    );
-}
+    logger.add(new winston.transports.Console());
+  }
 
 export const requestLogger = async (
   req: Request,
