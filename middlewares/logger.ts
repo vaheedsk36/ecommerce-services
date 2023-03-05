@@ -5,7 +5,7 @@ import DailyRotateFile = require("winston-daily-rotate-file");
 import { DailyRotateFileTransportOptions } from "winston-daily-rotate-file";
 
 const transport = new DailyRotateFile({
-  filename: `${env.LOG_PATH}service-report-%DATE%.log`,
+  filename: `${env.LOG_PATH || ".//logs//"}service-report-%DATE%.log`,
   datePattern: "YYYY-MM-DD-HH",
   zippedArchive: true,
   maxSize: "20m",
@@ -18,7 +18,7 @@ export const logger = winston.createLogger({
   format: winston.format.json(),
   transports: [
     new winston.transports.File({
-      filename: `${env.LOG_PATH}service-report.error.log`,
+      filename: `${env.LOG_PATH || ".//logs//"}service-report.error.log`,
       level: "error",
     }),
     transport,
