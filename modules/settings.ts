@@ -1,6 +1,8 @@
 import { Request,Response } from 'express';
 import AccountSettings from '../models/settings';
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
+import randtoken from "rand-token";
 
 export const createNewAccount = async (req: Request, res: Response) => {
   try {
@@ -12,22 +14,43 @@ export const createNewAccount = async (req: Request, res: Response) => {
             .status(400)
             .json({ status: false, message: "User already exists" });
         } else {
-          let user = new AccountSettings({
+          const { username, password, phone, email } = req.body;
+
+          const userData: any = {
             clientId: uuidv4(),
-            username: req.body.username,
-            password: req.body.password,
-            phone: req.body.phone,
-          });
+            username,
+            password,
+            phone,
+            email,
+          };
+
+          const token = jwt.sign(
+            { clientId: userData.clientId, email: userData.email },
+            process.env.TOKEN_KEY,
+            {
+              expiresIn: "2h",
+            }
+          );
+
+          const refreshToken = randtoken.uid(256);
+          const refreshTokens = {
+            username,
+            refreshToken,
+          };
+          userData.refreshtokens = refreshTokens;
+
+          let user = new AccountSettings(userData);
           user = await user.save();
           if (!user) {
             throw new Error("Unable to create your account");
           }
-          res
-            .status(201)
-            .json({
-              status: true,
-              message: "Successfully created your account",
-            });
+          res.status(201).json({
+            status: true,
+            message:{
+              token: 'JWT ' + token,
+              refreshToken:refreshToken
+            }
+          });
         }
       }
     );

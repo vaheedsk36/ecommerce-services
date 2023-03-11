@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -25,6 +25,8 @@ const accountSchema = new Schema({
   zipcode: {
     type: String,
   },
+  refreshtokens: { type: Object, required: true },
+  email: { type: String, required: true }
 });
 
-export default mongoose.model('AccountSetting',accountSchema);
+export default mongoose.model("AccountSetting", accountSchema);
