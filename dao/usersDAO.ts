@@ -41,7 +41,7 @@ export const addNewUser = async(userinfo:any) : Promise<unknown>=>{
     // TODO Check if a user exists already or not
     const query: QueryConfig = {
         text: `
-        INSERT INTO ecom.users(id,name,email,password)
+        INSERT INTO ecom.users(name,email,password)
         VALUES($1::text,$2::text,$3::text)
         `,
         values: [
