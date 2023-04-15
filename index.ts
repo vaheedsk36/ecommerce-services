@@ -39,18 +39,18 @@ app.use(`${api}/account`,userSettingsRoute);
  * * saved (if some other fields are sent).
  */
 
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.DB_CONNECTION_STRING,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-    dbName:'ecommerce-website'
-} as ConnectOptions)
-.then(()=>{
-    console.log('DB connection established!')
-})
-.catch((err)=>{
-    console.log(err)
-})
+// mongoose.set("strictQuery", false);
+// mongoose.connect(process.env.DB_CONNECTION_STRING,{
+//     useNewUrlParser:true,
+//     useUnifiedTopology:true,
+//     dbName:'ecommerce-website'
+// } as ConnectOptions)
+// .then(()=>{
+//     console.log('DB connection established!')
+// })
+// .catch((err)=>{
+//     console.log(err)
+// })
 
 app.listen(PORT,()=>{
     console.log(`App is listening at http://localhost:${PORT}`)

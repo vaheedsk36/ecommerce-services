@@ -1,8 +1,10 @@
 import express, { Router } from 'express';
-import { getUsersData } from '../modules/user';
+import { createNewUser, getUsersData } from '../modules/user';
 
 const router:Router = express.Router();
 
-router.get('/',getUsersData)
+router.get('/',getUsersData);
+router.post('/signup',createNewUser);
+
 
 export default router;
