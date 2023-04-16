@@ -9,3 +9,11 @@ export interface CategoryList {
     icon:string,
     color:string,
 }
+
+export interface IUserInfo extends Record<string,any>{
+    name:string,
+    email:string,
+    password:string,
+    contact?:number,
+    address?:string
+}
