@@ -17,3 +17,8 @@ export interface IUserInfo extends Record<string,any>{
     contact?:number,
     address?:string
 }
+
+export type TDeleteOptions = {
+    permanently:boolean,
+    temporarily:boolean
+}
