@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Product from "../models/product";
 import mongoose from "mongoose";
 import { logger } from "../middlewares/logger";
-import { getProductsDataByCategory } from "../dao/productsDAO";
+import { getProductsDataByCategory, getProductsDataById } from "../dao/productsDAO";
 
 export const getProducts = async (req: Request, res: Response) => {
   try{
@@ -23,40 +23,28 @@ export const getProductsByCategory = async (req: Request, res: Response) => {
   try{
     const productsList = await getProductsDataByCategory(+req.params.categoryId);
     if (!productsList) {
-      throw new Error("Failed to get requested data")
+      throw new Error("Failed to get products data")
     }
     res.send(productsList);
 
   }catch(err){
     logger.error(err);
-    res.status(500).json({ success: false });
+    res.status(400).json({ success: false });
   }
 
 };
 
-
-
-
-
-
-
-
-
 export const getProductsById = async (req: Request, res: Response) => {
-  try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).send("Invalid product id");
-    }
-    const productsList = await Product.findById(req.params.id);
+  try{
+    const productsList = await getProductsDataById(+req.params.id);
     if (!productsList) {
-      res.status(400).json({ success: false });
+      throw new Error("Failed to get products data")
     }
     res.send(productsList);
-  } catch (err) {
-    res.status(500).json({
-      error: err,
-      status: false,
-    });
+
+  }catch(err){
+    logger.error(err);
+    res.status(400).json({ success: false });
   }
 };
 

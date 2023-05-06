@@ -9,10 +9,10 @@ import {
 
 const router = express.Router();
 // convert it into postgres 
-router.get("/:categoryId", getProductsByCategory);
+router.get("/category/:categoryId", getProductsByCategory);
+router.get("/id/:id", getProductsById);
 
 //TODO change the below
-router.get("/:id", getProductsById);
 router.post("/", addNewProduct);
 router.put("/:id", updateProductById);
 router.delete("/:id", deleteProductById);

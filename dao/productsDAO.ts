@@ -10,3 +10,13 @@ export const getProductsDataByCategory = async(categoryId:number)=>{
     const result: QueryResult = await db.query(query);
     return result.rows;
 }
+
+export const getProductsDataById = async(id:number)=>{
+    const db: Pool = await initializeConnection();
+    const query: QueryConfig = {
+        text: `SELECT * from ecom.products WHERE id = $1`,
+        values: [id]
+    };
+    const result: QueryResult = await db.query(query);
+    return result.rows;
+}
