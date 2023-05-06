@@ -2,61 +2,65 @@ import { Request, Response } from "express";
 import Product from "../models/product";
 import mongoose from "mongoose";
 import { logger } from "../middlewares/logger";
-import { getProductsDataByCategory, getProductsDataById } from "../dao/productsDAO";
-
-export const getProducts = async (req: Request, res: Response) => {
-  try{
-    const productsList = await Product.find().populate("category");
-    if (!productsList) {
-      throw new Error("Failed to get requested data")
-    }
-    res.send(productsList);
-
-  }catch(err){
-    logger.error(err);
-    res.status(500).json({ success: false });
-  }
-
-};
+import {
+  addProductsToDb,
+  getProductsDataByCategory,
+  getProductsDataById,
+} from "../dao/productsDAO";
 
 export const getProductsByCategory = async (req: Request, res: Response) => {
-  try{
-    const productsList = await getProductsDataByCategory(+req.params.categoryId);
+  try {
+    const productsList = await getProductsDataByCategory(
+      +req.params.categoryId
+    );
     if (!productsList) {
-      throw new Error("Failed to get products data")
+      throw new Error("Failed to get products data");
     }
     res.send(productsList);
-
-  }catch(err){
+  } catch (err) {
     logger.error(err);
     res.status(400).json({ success: false });
   }
-
 };
 
 export const getProductsById = async (req: Request, res: Response) => {
-  try{
+  try {
     const productsList = await getProductsDataById(+req.params.id);
     if (!productsList) {
-      throw new Error("Failed to get products data")
+      throw new Error("Failed to get products data");
     }
     res.send(productsList);
-
-  }catch(err){
+  } catch (err) {
     logger.error(err);
     res.status(400).json({ success: false });
   }
 };
 
-export const addNewProduct = async (req: Request, res: Response) => {
+export const addNewProducts = async (req: Request, res: Response) => {
   try {
-    let product = new Product({
-      name: req.body.name,
-      image: req.body.image,
-      countInStock: req.body.countInStock,
-      description:req.body.description
-    });
-    product = await product.save();
+    const {
+      name,
+      description,
+      price,
+      assetUrl,
+      categoryId,
+      quantity,
+      sellerDetails,
+      category,
+      specifications,
+    } = req.body;
+    const product = await addProductsToDb(
+      name,
+      description,
+      price,
+      assetUrl,
+      categoryId,
+      quantity,
+      sellerDetails,
+      category,
+      specifications
+    );
+
     if (!product) {
       res.status(400).json({ status: false });
     }
