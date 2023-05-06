@@ -1,6 +1,7 @@
 import { Pool, QueryConfig, QueryResult } from "pg";
 import { initializeConnection } from "../config/db";
 import { IUserInfo, TDeleteOptions } from "../types";
+import { Name } from "ajv";
 
 //* For getting all the users data
 
@@ -64,3 +65,6 @@ export const deleteUser = async (userEmail: string,delete_options:TDeleteOptions
     `, [userEmail,false]);
   }
 };
+
+// Account details update
+
