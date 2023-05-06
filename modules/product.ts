@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Product from "../models/product";
 import mongoose from "mongoose";
 import { logger } from "../middlewares/logger";
+import { getProductsDataByCategory } from "../dao/productsDAO";
 
 export const getProducts = async (req: Request, res: Response) => {
   try{
@@ -18,21 +19,28 @@ export const getProducts = async (req: Request, res: Response) => {
 
 };
 
-export const getProductsCount = async (req: Request, res: Response) => {
-  const productsCount = await Product.countDocuments();
-  if (!productsCount) {
+export const getProductsByCategory = async (req: Request, res: Response) => {
+  try{
+    const productsList = await getProductsDataByCategory(+req.params.categoryId);
+    if (!productsList) {
+      throw new Error("Failed to get requested data")
+    }
+    res.send(productsList);
+
+  }catch(err){
+    logger.error(err);
     res.status(500).json({ success: false });
   }
-  res.send({ productsCount: productsCount });
+
 };
 
-export const getFeaturedProducts = async (req: Request, res: Response) => {
-  const productsList = await Product.find({ isFeatured: true });
-  if (!productsList) {
-    res.status(500).json({ success: false });
-  }
-  res.send(productsList);
-};
+
+
+
+
+
+
+
 
 export const getProductsById = async (req: Request, res: Response) => {
   try {
