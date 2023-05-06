@@ -30,7 +30,6 @@ pool.on('error', (err: Error) => {
 
 export const initializeConnection = async (): Promise<Pool> => {
     logger.info(`New db connection is established!!`);
-    console.log(pool,'pool')
     return pool;
 };
 

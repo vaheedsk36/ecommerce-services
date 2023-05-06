@@ -37,3 +37,13 @@ export const addItemsToCart = async (
     const result: QueryResult = await db.query(query);
     return !!result.rowCount;
   };
+
+export const getOrderHistory = async(customerId:number)=>{
+    const db: Pool = await initializeConnection();
+    const query: QueryConfig = {
+        text: `SELECT * from ecom.orders WHERE customer_id = $1 AND status = 'delivered' `,
+        values: [customerId]
+    };
+    const result: QueryResult = await db.query(query);
+    return result.rows;
+}

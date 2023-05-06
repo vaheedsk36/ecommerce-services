@@ -1,5 +1,4 @@
 import express, { Application } from 'express';
-import mongoose, { ConnectOptions } from 'mongoose';
 import cors from 'cors';
 import productsRoutes from './routes/product';
 import categoriesRoutes from './routes/category';

@@ -7,5 +7,5 @@ router.get('/',getUsersData);
 router.post('/',getCurrentUserData);
 router.post('/signup',createNewUser);
 router.delete('/delete-user',deleteExistingUser);
-
+// update user data
 export default router;

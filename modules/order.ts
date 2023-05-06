@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import Order from "../models/order";
-import { addItemsToCart } from "../dao/ordersDAO";
+import { addItemsToCart, getOrderHistory } from "../dao/ordersDAO";
 import { logger } from "../middlewares/logger";
 
 export const getOrdersData = async (req: Request, res: Response) => {
-  const ordersList = await Order.find();
+  const ordersList = await getOrderHistory (+req.params.id);
   if (!ordersList) {
     res.status(500).json({ success: false });
   }
