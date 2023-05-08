@@ -29,6 +29,7 @@
     "nodemon": "^2.0.20",
     "pg": "^8.10.0",
     "rand-token": "^1.0.1",
+    "underscore": "^1.13.6",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
