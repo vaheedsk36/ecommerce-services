@@ -20,7 +20,7 @@ export const getProductsDataById = async(id:number)=>{
     const result: QueryResult = await db.query(query);
     return result.rows;
 }
-// TODO facing error with the query here
+
 export const addProductsToDb = async(
     name:string,
     description:string,
@@ -64,6 +64,19 @@ export const addProductsToDb = async(
             specifications
         ]
     };
+    const result: QueryResult = await db.query(query);
+    return !!result.rowCount;
+}
+
+export const updateProductByID = async(
+    conditions: string,
+    updateParams: string[]
+)=>{
+    const db: Pool = await initializeConnection();
+    const query =         `
+    UPDATE ecom.products SET ${updateParams.join(", ")} 
+    WHERE ${conditions}
+    `
     const result: QueryResult = await db.query(query);
     return !!result.rowCount;
 }
