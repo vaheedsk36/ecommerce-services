@@ -27,6 +27,7 @@
 - Add authentication middleware
 - Add ajv validation to all the post requests
 - Add more TS definitions
+- Add project schema images
 
 ## Authors
 
