@@ -12,8 +12,6 @@ router.get("/category/:categoryId", getProductsByCategory);
 router.get("/id/:id", getProductsById);
 router.post("/add-products", addNewProducts);
 router.put("/id/:id", updateProductById);
-
-//TODO change the below
-router.delete("/:id", deleteProductById);
+router.delete("/id/:id", deleteProductById);
 
 export default router;
