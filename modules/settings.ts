@@ -3,6 +3,60 @@ import AccountSettings from '../models/settings';
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import randtoken from "rand-token";
+import { logger } from '../middlewares/logger';
+
+export const generateNewAccessToken = async (req: Request, res: Response) => {
+  try {
+    const { username, refreshtoken } = req.body;
+    const { clientId, email, refreshtokens } = await AccountSettings.findOne({
+      username,
+    });
+    console.log(refreshtoken in refreshtokens);
+    if (refreshtoken in refreshtokens && refreshtokens[username] === username) {
+      const token = jwt.sign({ clientId, email }, process.env.TOKEN_KEY, {
+        expiresIn: "2h",
+      });
+
+      const refreshtoken = randtoken.uid(256);
+
+      const refreshtokens = {
+        username,
+        refreshtoken,
+      };
+
+      const user = await AccountSettings.findOneAndUpdate(
+        { clientId },
+        { refreshtokens },
+        {
+          new: true,
+        }
+      );
+
+      if (!user) {
+        throw new Error("Unable to generate token");
+      }
+      res.status(200).json({
+        state: false,
+        message: {
+          token: "JWT " + token,
+          refreshtoken: refreshtoken,
+        },
+      });
+    }
+
+    res.status(400).json({
+      state: false,
+      message: "invalid refresh token",
+    });
+
+  } catch (err) {
+    logger.error(err);
+    res.status(500).json({
+      status: false,
+      message: "unable to get new token",
+    });
+  }
+};
 
 export const createNewAccount = async (req: Request, res: Response) => {
   try {
@@ -32,12 +86,12 @@ export const createNewAccount = async (req: Request, res: Response) => {
             }
           );
 
-          const refreshToken = randtoken.uid(256);
-          const refreshTokens = {
+          const refreshtoken = randtoken.uid(256);
+          const refreshtokens = {
             username,
-            refreshToken,
+            refreshtoken,
           };
-          userData.refreshtokens = refreshTokens;
+          userData.refreshtokens = refreshtokens;
 
           let user = new AccountSettings(userData);
           user = await user.save();
@@ -48,7 +102,7 @@ export const createNewAccount = async (req: Request, res: Response) => {
             status: true,
             message:{
               token: 'JWT ' + token,
-              refreshToken:refreshToken
+              refreshtoken:refreshtoken
             }
           });
         }

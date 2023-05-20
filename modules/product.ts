@@ -1,66 +1,69 @@
 import { Request, Response } from "express";
-import Product from "../models/product";
-import mongoose from "mongoose";
 import { logger } from "../middlewares/logger";
+import {
+  addProductsToDb,
+  deleteProductByID,
+  getProductsDataByCategory,
+  getProductsDataById,
+  updateProductByID,
+} from "../dao/productsDAO";
+import { setAttributes } from "../utils/common";
 
-export const getProducts = async (req: Request, res: Response) => {
-  try{
-    const productsList = await Product.find().populate("category");
+export const getProductsByCategory = async (req: Request, res: Response) => {
+  try {
+    const productsList = await getProductsDataByCategory(
+      +req.params.categoryId
+    );
     if (!productsList) {
-      throw new Error("Failed to get requested data")
+      throw new Error("Failed to get products data");
     }
     res.send(productsList);
-
-  }catch(err){
+  } catch (err) {
     logger.error(err);
-    res.status(500).json({ success: false });
+    res.status(400).json({ success: false });
   }
-
-};
-
-export const getProductsCount = async (req: Request, res: Response) => {
-  const productsCount = await Product.countDocuments();
-  if (!productsCount) {
-    res.status(500).json({ success: false });
-  }
-  res.send({ productsCount: productsCount });
-};
-
-export const getFeaturedProducts = async (req: Request, res: Response) => {
-  const productsList = await Product.find({ isFeatured: true });
-  if (!productsList) {
-    res.status(500).json({ success: false });
-  }
-  res.send(productsList);
 };
 
 export const getProductsById = async (req: Request, res: Response) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).send("Invalid product id");
-    }
-    const productsList = await Product.findById(req.params.id);
+    const productsList = await getProductsDataById(+req.params.id);
     if (!productsList) {
-      res.status(400).json({ success: false });
+      throw new Error("Failed to get products data");
     }
     res.send(productsList);
   } catch (err) {
-    res.status(500).json({
-      error: err,
-      status: false,
-    });
+    logger.error(err);
+    res.status(400).json({ success: false });
   }
 };
 
-export const addNewProduct = async (req: Request, res: Response) => {
+export const addNewProducts = async (req: Request, res: Response) => {
   try {
-    let product = new Product({
-      name: req.body.name,
-      image: req.body.image,
-      countInStock: req.body.countInStock,
-      description:req.body.description
-    });
-    product = await product.save();
+    const {
+      name,
+      description,
+      price,
+      assetUrl,
+      categoryId,
+      quantity,
+      sellerDetails,
+      category,
+      specifications,
+      companyId,
+    } = req.body;
+    const product = await addProductsToDb(
+      name,
+      description,
+      price,
+      assetUrl,
+      categoryId,
+      quantity,
+      sellerDetails,
+      category,
+      specifications,
+      companyId
+    );
+
     if (!product) {
       res.status(400).json({ status: false });
     }
@@ -76,27 +79,22 @@ export const addNewProduct = async (req: Request, res: Response) => {
 
 export const updateProductById = async (req: Request, res: Response) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).send("Invalid product id");
-    }
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name,
-        image: req.body.image,
-        countInStock: req.body.countInStock,
-      },
-      {
-        new: true,
-      }
+    const updatedParams = req.body.updatedParams;
+    const updatedProductData = Object.keys(updatedParams).map((attribute) =>
+      setAttributes(attribute, updatedParams)
     );
-    if (!product) {
+    const productUpdateStatus = await updateProductByID(
+      `id = ${+req.params.id}`,
+      updatedProductData
+    );
+    if (!productUpdateStatus) {
       res.status(400).json({
         status: false,
         message: "Unable to update the product ",
       });
     }
-    res.send(product);
+
+    res.status(200).json(productUpdateStatus);
   } catch (err) {
     return res.status(500).json({
       success: false,
@@ -107,10 +105,7 @@ export const updateProductById = async (req: Request, res: Response) => {
 
 export const deleteProductById = async (req: Request, res: Response) => {
   try {
-    if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).send("Invalid product id");
-    }
-    const product = await Product.findByIdAndRemove(req.params.id);
+    const product = await deleteProductByID(`id = ${req.params.id}`);
     if (product) {
       return res.status(200).json({
         success: true,
