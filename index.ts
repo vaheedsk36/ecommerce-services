@@ -6,7 +6,6 @@ import usersRoutes from './routes/user';
 import { requestLogger } from './middlewares/logger';
 import dotenv from "dotenv";
 import path from "path";
-import { clear } from 'winston';
 
 dotenv.config({
     encoding: "utf8",
