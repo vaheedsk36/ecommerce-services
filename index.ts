@@ -3,10 +3,10 @@ import cors from 'cors';
 import productsRoutes from './routes/product';
 import ordersRoutes from './routes/order';
 import usersRoutes from './routes/user';
-import userSettingsRoute from './routes/settings';
 import { requestLogger } from './middlewares/logger';
 import dotenv from "dotenv";
 import path from "path";
+import { clear } from 'winston';
 
 dotenv.config({
     encoding: "utf8",
@@ -26,7 +26,6 @@ app.use(requestLogger);
 app.use(`${api}/products`,productsRoutes);
 app.use(`${api}/orders`,ordersRoutes);
 app.use(`${api}/users`,usersRoutes);
-app.use(`${api}/account`,userSettingsRoute);
 
 app.listen(PORT,()=>{
     console.log(`App is listening at http://localhost:${PORT}`)
